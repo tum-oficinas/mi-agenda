@@ -4,1007 +4,926 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="https://i.ibb.co/fdvQmGRL/TUM-CEO-dorado-S-F-500x500.png">
-    <title>Verificador de Agendamientos en linea - TUM</title>
-    
-    <!-- Google Fonts: Inter para look Apple / Profesional -->
+    <title>Mi Agenda — TUM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- RESET & VARIABLES ESTILO APPLE --- */
-        * { 
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        :root {
-            /* Paleta Apple Grises */
-            --apple-bg: #F5F5F7;
-            --apple-surface: #FFFFFF;
-            --apple-text-main: #1D1D1F;
-            --apple-text-secondary: #86868B;
-            --apple-border: #D2D2D7;
-            
-            /* Acentos */
-            --apple-blue: #0071E3;
-            --apple-blue-hover: #0077ED;
-            --apple-green: #34C759;
-            
-            /* Sombras sutiles */
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
-            --shadow-lg: 0 12px 24px rgba(0,0,0,0.08);
-            
-            --radius-apple: 18px;
-            --radius-input: 12px;
-        }
-        
-        body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--apple-bg);
-            color: var(--apple-text-main);
-            line-height: 1.5;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* --- HEADER --- */
-        header {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--apple-border);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            padding: 1rem 0;
-        }
-
-        .container {
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            width: 100%;
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-img {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: white;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .logo-text h1 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--apple-text-main);
-            letter-spacing: -0.01em;
-        }
-
-        .logo-text p {
-            font-size: 0.8rem;
-            color: var(--apple-text-secondary);
-            font-weight: 400;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-link {
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .support-link {
-            background: #F5F5F7;
-            color: var(--apple-text-main);
-        }
-        .support-link:hover { background: #E8E8ED; }
-
-        .whatsapp-link {
-            background: white;
-            border: 1px solid var(--apple-border);
-            color: var(--apple-green);
-        }
-        .whatsapp-link:hover {
-            background: #F0FFF4;
-            border-color: var(--apple-green);
-        }
-
-        /* --- HERO SECTION CENTRADO --- */
-        .hero-section {
-            text-align: center;
-            padding: 6rem 0 3rem;
-            transition: padding 0.4s ease;
-        }
-
-        .hero-section.with-results {
-            padding: 3rem 0 2rem;
-        }
-
-        .hero-section h1 {
-            color: var(--apple-text-main);
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-section .subtitle {
-            color: var(--apple-text-secondary);
-            font-size: 1.125rem;
-            font-weight: 400;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-        }
-
-        /* --- SEARCH BOX CENTRADO Y DESTACADO --- */
-        .search-box-wrapper {
-            max-width: 540px;
-            margin: 0 auto;
-        }
-
-        .search-input-container {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 1.25rem 1.5rem;
-            font-size: 1.125rem;
-            border-radius: var(--radius-input);
-            border: 2px solid var(--apple-border);
-            background: var(--apple-surface);
-            transition: all 0.2s ease;
-            font-weight: 500;
-            color: var(--apple-text-main);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--apple-blue);
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
-        }
-
-        .search-input::placeholder {
-            color: var(--apple-text-secondary);
-            font-weight: 400;
-        }
-
-        .search-button {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            background: var(--apple-blue);
-            color: white;
-            border: none;
-            border-radius: var(--radius-input);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-md);
-        }
-
-        .search-button:hover:not(:disabled) {
-            background: var(--apple-blue-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .search-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* --- ERROR MESSAGE --- */
-        .error-message {
-            background: #FFF3F3;
-            border: 1px solid #FFD7D7;
-            color: #D40000;
-            padding: 1rem;
-            border-radius: var(--radius-input);
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        /* --- ESTADÍSTICAS (Inicialmente ocultas) --- */
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease;
-        }
-
-        .stats-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .stat-card {
-            background: var(--apple-surface);
-            padding: 1.5rem 1rem;
-            border-radius: var(--radius-apple);
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(0,0,0,0.03);
-            transition: transform 0.2s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--apple-text-main);
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--apple-text-secondary);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* --- MAIN RECORD CARD --- */
-        .main-record-card {
-            background: white;
-            border-radius: var(--radius-apple);
-            padding: 2rem;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-            border: 1px solid rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .main-record-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .record-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-        }
-
-        .status-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .status-realizado {
-            background: var(--apple-blue);
-            color: white;
-        }
-
-        .status-en-hora {
-            background: var(--apple-green);
-            color: white;
-        }
-
-        .status-pendiente {
-            background: #FF9500;
-            color: white;
-        }
-
-        .record-info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .info-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .info-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--apple-text-secondary);
-            margin-bottom: 0.25rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .info-value {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--apple-text-main);
-        }
-
-        .payment-summary {
-            background: #F5F5F7;
-            padding: 1.25rem;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .payment-label {
-            font-size: 0.9rem;
-            color: var(--apple-text-secondary);
-        }
-
-        .payment-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--apple-green);
-        }
-
-        /* --- HISTORIAL --- */
-        .history-section {
-            background: white;
-            border-radius: var(--radius-apple);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-
-        .history-header {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--apple-text-secondary);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .compact-record {
-            padding: 1rem;
-            border-bottom: 1px solid #F5F5F7;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .compact-record:last-child {
-            border-bottom: none;
-        }
-
-        .compact-record:hover {
-            background: #FAFAFA;
-        }
-
-        .compact-record-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .compact-info {
-            flex: 1;
-        }
-
-        .compact-status {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--apple-text-secondary);
-            margin-bottom: 4px;
-        }
-
-        .compact-name {
-            font-weight: 500;
-            color: var(--apple-text-main);
-            margin-bottom: 4px;
-        }
-
-        .compact-date {
-            font-size: 0.85rem;
-            color: var(--apple-text-secondary);
-        }
-
-        /* --- MODAL --- */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 1rem;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: var(--radius-apple);
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 24px 48px rgba(0,0,0,0.2);
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header-bg {
-            text-align: center;
-            padding: 2rem 1.5rem 1.5rem;
-            background: linear-gradient(135deg, #F5F5F7 0%, #FFFFFF 100%);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .modal-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            padding: 1.5rem;
-        }
-
-        .modal-field-box {
-            background: #F5F5F7;
-            padding: 1rem;
-            border-radius: 10px;
-        }
-
-        .modal-field-label-box {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--apple-text-secondary);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .modal-field-value-box {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--apple-text-main);
-        }
-
-        .modal-close {
-            position: sticky;
-            bottom: 0;
-            background: white;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            padding: 1rem 1.5rem;
-        }
-
-        .close-button {
-            width: 100%;
-            padding: 0.875rem;
-            background: var(--apple-blue);
-            color: white;
-            border: none;
-            border-radius: var(--radius-input);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .close-button:hover {
-            background: var(--apple-blue-hover);
-        }
-
-        /* --- UTILITIES --- */
-        .hidden {
-            display: none !important;
-        }
-
-        /* --- FADE IN ANIMATION --- */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.4s ease;
-        }
-
-        /* --- SPINNER --- */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 640px) {
-            .hero-section h1 {
-                font-size: 2rem;
-            }
-
-            .hero-section .subtitle {
-                font-size: 1rem;
-            }
-
-            .search-input {
-                font-size: 1rem;
-                padding: 1rem 1.25rem;
-            }
-
-            .header-actions {
-                gap: 6px;
-            }
-
-            .header-link {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-
-            .logo-img {
-                width: 40px;
-                height: 40px;
-            }
-
-            .modal-grid {
-                grid-template-columns: 1fr;
-            }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+
+        :root{
+            --navy:#080e1a;
+            --navy2:#0d1526;
+            --navy3:#111e33;
+            --panel:#0f1c2e;
+            --panel2:#132035;
+            --green:#39FF14;
+            --green2:#2bcc0f;
+            --green-dim:rgba(57,255,20,.12);
+            --green-glow:rgba(57,255,20,.25);
+            --green-text:rgba(57,255,20,.85);
+            --white:#ffffff;
+            --muted:rgba(255,255,255,.38);
+            --muted2:rgba(255,255,255,.18);
+            --border:rgba(255,255,255,.07);
+            --border2:rgba(57,255,20,.2);
+            --r:14px;
+            --r2:20px;
+            --r3:28px;
+        }
+
+        html{scroll-behavior:smooth}
+
+        body{
+            font-family:"Montserrat",sans-serif;
+            background:var(--navy);
+            color:var(--white);
+            min-height:100vh;
+            overflow-x:hidden;
+            /* Subtle grid texture */
+            background-image:
+                linear-gradient(rgba(57,255,20,.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57,255,20,.015) 1px, transparent 1px);
+            background-size:40px 40px;
+        }
+
+        /* ─── GLOW ORBS ─── */
+        body::before{
+            content:"";
+            position:fixed;
+            top:-200px; left:-200px;
+            width:600px; height:600px;
+            background:radial-gradient(circle, rgba(57,255,20,.06) 0%, transparent 70%);
+            pointer-events:none; z-index:0;
+        }
+        body::after{
+            content:"";
+            position:fixed;
+            bottom:-150px; right:-150px;
+            width:500px; height:500px;
+            background:radial-gradient(circle, rgba(57,255,20,.04) 0%, transparent 70%);
+            pointer-events:none; z-index:0;
+        }
+
+        /* ─── TICKER ─── */
+        .ticker{
+            background:linear-gradient(90deg, var(--green2), var(--green), var(--green2));
+            padding:9px 0;
+            overflow:hidden;
+            white-space:nowrap;
+            position:relative; z-index:2;
+        }
+        .ticker-track{
+            display:inline-flex; gap:0;
+            animation:ticker 30s linear infinite;
+        }
+        .ticker-item{
+            display:inline-flex; align-items:center; gap:24px;
+            padding:0 32px;
+            font-size:.68rem;
+            font-weight:600;
+            font-family:"Montserrat",sans-serif;
+            color:var(--navy);
+            text-transform:uppercase;
+            letter-spacing:.15em;
+        }
+        .ticker-item::after{content:"·"; font-size:1.2rem; opacity:.5}
+        @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+        /* ─── NAV ─── */
+        nav{
+            position:sticky; top:0; z-index:50;
+            padding:16px 24px;
+            background:linear-gradient(to bottom, rgba(8,14,26,.95) 0%, transparent 100%);
+            backdrop-filter:blur(12px);
+        }
+        .nav-inner{
+            max-width:860px; margin:0 auto;
+            display:flex; align-items:center; justify-content:space-between;
+        }
+        .nav-brand{display:flex; align-items:center; gap:12px}
+        .nav-logo-wrap{
+            width:40px; height:40px;
+            border-radius:12px;
+            background:var(--green-dim);
+            border:1px solid var(--border2);
+            display:flex; align-items:center; justify-content:center;
+            overflow:hidden;
+        }
+        .nav-logo-wrap img{width:36px; height:36px; border-radius:10px}
+        .nav-brand-name{
+            font-family:"Montserrat",sans-serif;
+            font-size:.95rem; font-weight:800;
+            letter-spacing:.04em;
+            color:var(--white);
+        }
+        .nav-brand-name em{font-style:normal; color:var(--green)}
+        .nav-links{display:flex; align-items:center; gap:8px}
+        .nav-link{
+            display:flex; align-items:center; gap:7px;
+            padding:8px 18px;
+            border-radius:100px;
+            font-size:.78rem; font-weight:500;
+            text-decoration:none; cursor:pointer; border:none;
+            font-family:"Montserrat",sans-serif;
+            transition:all .2s ease;
+            letter-spacing:.01em;
+        }
+        .nav-link-ghost{
+            background:transparent;
+            color:var(--muted);
+            border:1px solid var(--border);
+        }
+        .nav-link-ghost:hover{color:var(--white); border-color:rgba(255,255,255,.2)}
+        .nav-link-wa{
+            background:var(--green);
+            color:var(--navy);
+            font-weight:600;
+        }
+        .nav-link-wa:hover{background:#50ff2a; transform:scale(1.04)}
+
+        /* ─── MAIN LAYOUT ─── */
+        .page{
+            position:relative; z-index:1;
+            max-width:860px; margin:0 auto;
+            padding:0 24px 80px;
+        }
+
+        /* ─── HERO ─── */
+        .hero{
+            text-align:center;
+            padding:64px 0 48px;
+            transition:padding .5s cubic-bezier(.4,0,.2,1);
+        }
+        .hero.compact{padding:28px 0 24px}
+
+        .hero-eyebrow{
+            display:inline-flex; align-items:center; gap:8px;
+            background:var(--green-dim);
+            border:1px solid var(--border2);
+            border-radius:100px;
+            padding:5px 16px 5px 10px;
+            margin-bottom:28px;
+        }
+        .eyebrow-dot{
+            width:8px; height:8px;
+            border-radius:50%;
+            background:var(--green);
+            box-shadow:0 0 8px var(--green);
+            animation:pulse-dot 1.6s ease-in-out infinite;
+        }
+        @keyframes pulse-dot{0%,100%{box-shadow:0 0 6px var(--green)}50%{box-shadow:0 0 16px var(--green), 0 0 30px rgba(57,255,20,.3)}}
+        .eyebrow-text{
+            font-size:.68rem; font-weight:600;
+            color:var(--green-text);
+            text-transform:uppercase; letter-spacing:.12em;
+        }
+
+        .hero-title{
+            font-family:"Montserrat",sans-serif;
+            font-size:clamp(2.4rem,7vw,4rem);
+            font-weight:800;
+            letter-spacing:-.03em;
+            line-height:1.05;
+            margin-bottom:14px;
+            animation:slideUp .6s cubic-bezier(.16,1,.3,1) both;
+        }
+        .hero-title span{color:var(--green)}
+
+        .hero-sub{
+            font-size:.98rem;
+            font-weight:300;
+            color:var(--muted);
+            max-width:400px;
+            margin:0 auto 44px;
+            line-height:1.65;
+            animation:slideUp .6s .1s cubic-bezier(.16,1,.3,1) both;
+        }
+        @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+        /* ─── SEARCH CARD ─── */
+        .search-card{
+            background:var(--panel);
+            border:1px solid var(--border);
+            border-radius:var(--r3);
+            padding:28px;
+            max-width:480px; margin:0 auto;
+            animation:slideUp .6s .15s cubic-bezier(.16,1,.3,1) both;
+            position:relative;
+            overflow:hidden;
+        }
+        .search-card::before{
+            content:"";
+            position:absolute; top:0; left:0; right:0; height:1px;
+            background:linear-gradient(90deg, transparent, var(--green-glow), transparent);
+        }
+        .search-label{
+            display:block;
+            font-size:.72rem; font-weight:600;
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.1em;
+            margin-bottom:10px;
+        }
+        .search-row{
+            display:flex; gap:10px; margin-bottom:0;
+        }
+        .search-input{
+            flex:1;
+            padding:.9rem 1.2rem;
+            font-family:"Montserrat",sans-serif;
+            font-size:.98rem; font-weight:500;
+            background:rgba(255,255,255,.05);
+            border:1.5px solid rgba(255,255,255,.1);
+            border-radius:12px;
+            color:var(--white);
+            transition:all .25s ease;
+        }
+        .search-input::placeholder{color:rgba(255,255,255,.25); font-weight:400}
+        .search-input:focus{
+            outline:none;
+            border-color:var(--green);
+            background:rgba(57,255,20,.05);
+            box-shadow:0 0 0 3px rgba(57,255,20,.1);
+        }
+        .search-btn{
+            padding:.9rem 1.4rem;
+            background:var(--green);
+            color:var(--navy);
+            border:none; border-radius:12px;
+            font-family:"Montserrat",sans-serif;
+            font-size:.82rem; font-weight:800;
+            cursor:pointer; white-space:nowrap;
+            letter-spacing:.04em;
+            transition:all .2s ease;
+        }
+        .search-btn:hover:not(:disabled){
+            background:#50ff2a;
+            transform:translateY(-1px);
+            box-shadow:0 6px 20px rgba(57,255,20,.35);
+        }
+        .search-btn:disabled{opacity:.45; cursor:not-allowed}
+
+        .search-hint{
+            display:flex; align-items:center; gap:7px;
+            margin-top:14px;
+            font-size:.75rem; color:var(--muted);
+        }
+        .search-hint svg{flex-shrink:0; opacity:.5}
+
+        .error-msg{
+            background:rgba(239,68,68,.08);
+            border:1px solid rgba(239,68,68,.2);
+            border-radius:10px;
+            padding:.8rem 1rem;
+            margin-top:12px;
+            font-size:.82rem; font-weight:500;
+            color:#fca5a5;
+            display:flex; align-items:center; gap:8px;
+        }
+
+        /* ─── RESULTS WRAPPER ─── */
+        .results-area{animation:slideUp .4s cubic-bezier(.16,1,.3,1) both}
+
+        /* ─── STATS ROW ─── */
+        .stats-row{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:10px;
+            margin-bottom:20px;
+            opacity:0; transform:translateY(16px);
+            transition:opacity .4s ease, transform .4s ease;
+        }
+        .stats-row.visible{opacity:1; transform:translateY(0)}
+
+        .stat{
+            background:var(--panel);
+            border:1px solid var(--border);
+            border-radius:var(--r2);
+            padding:16px 12px;
+            text-align:center;
+            position:relative; overflow:hidden;
+            transition:border-color .2s, transform .2s;
+        }
+        .stat:hover{border-color:var(--border2); transform:translateY(-2px)}
+        .stat::after{
+            content:"";
+            position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+            width:40%; height:1px;
+            background:linear-gradient(90deg, transparent, var(--green-glow), transparent);
+        }
+        .stat-n{
+            font-family:"Montserrat",sans-serif;
+            font-size:1.8rem; font-weight:800;
+            color:var(--green); letter-spacing:-.04em;
+            line-height:1;
+            text-shadow:0 0 20px rgba(57,255,20,.4);
+        }
+        .stat-l{
+            font-size:.63rem; font-weight:600;
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.12em;
+            margin-top:5px;
+        }
+
+        /* ─── MAIN APPOINTMENT CARD ─── */
+        .appt-card{
+            background:var(--panel);
+            border:1px solid var(--border);
+            border-radius:var(--r3);
+            margin-bottom:12px;
+            cursor:pointer;
+            transition:all .25s ease;
+            overflow:hidden;
+            position:relative;
+        }
+        .appt-card:hover{
+            border-color:var(--border2);
+            transform:translateY(-2px);
+            box-shadow:0 16px 48px rgba(0,0,0,.4), 0 0 0 1px var(--green-glow);
+        }
+        .appt-card-accent{
+            height:3px;
+            background:linear-gradient(90deg, transparent 0%, var(--green) 40%, transparent 100%);
+            opacity:.7;
+        }
+        .appt-card-body{padding:24px}
+
+        .appt-top{
+            display:flex; justify-content:space-between; align-items:flex-start;
+            margin-bottom:20px;
+        }
+        .appt-client{
+            font-family:"Montserrat",sans-serif;
+            font-size:1.45rem; font-weight:800;
+            letter-spacing:-.02em;
+            margin-bottom:4px;
+        }
+        .appt-code{
+            font-size:.75rem; font-weight:500;
+            color:var(--muted);
+            font-family:"Montserrat",sans-serif;
+            display:flex; align-items:center; gap:6px;
+        }
+        .appt-code::before{content:"#"; color:var(--green); opacity:.6}
+
+        /* ─── STATUS BADGES ─── */
+        .badge{
+            padding:6px 16px;
+            border-radius:100px;
+            font-size:.66rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:.1em;
+            font-family:"Montserrat",sans-serif;
+        }
+        .badge-en-hora{
+            background:var(--green);
+            color:var(--navy);
+            box-shadow:0 0 16px rgba(57,255,20,.5), 0 0 32px rgba(57,255,20,.2);
+            animation:badge-pulse 2s ease-in-out infinite;
+        }
+        @keyframes badge-pulse{
+            0%,100%{box-shadow:0 0 12px rgba(57,255,20,.4), 0 0 24px rgba(57,255,20,.15)}
+            50%{box-shadow:0 0 20px rgba(57,255,20,.7), 0 0 40px rgba(57,255,20,.3)}
+        }
+        .badge-realizado{
+            background:rgba(100,116,139,.15);
+            color:#94a3b8;
+            border:1px solid rgba(100,116,139,.25);
+        }
+        .badge-pendiente{
+            background:rgba(245,158,11,.12);
+            color:#fbbf24;
+            border:1px solid rgba(245,158,11,.25);
+        }
+
+        /* ─── INFO GRID ─── */
+        .info-grid{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:0;
+            background:rgba(255,255,255,.03);
+            border:1px solid var(--border);
+            border-radius:var(--r);
+            overflow:hidden;
+            margin-bottom:16px;
+        }
+        .info-cell{
+            padding:14px 16px;
+            border-right:1px solid var(--border);
+        }
+        .info-cell:last-child{border-right:none}
+        .info-lbl{
+            font-size:.6rem; font-weight:600;
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.1em;
+            margin-bottom:5px;
+        }
+        .info-val{
+            font-size:.9rem; font-weight:600;
+            color:var(--white);
+        }
+
+        /* ─── PAYMENT BOX ─── */
+        .payment-box{
+            display:flex; justify-content:space-between; align-items:center;
+            background:linear-gradient(135deg, rgba(57,255,20,.08) 0%, rgba(57,255,20,.04) 100%);
+            border:1px solid var(--border2);
+            border-radius:var(--r);
+            padding:16px 20px;
+        }
+        .payment-left{display:flex; align-items:center; gap:10px}
+        .payment-icon{
+            width:32px; height:32px; border-radius:9px;
+            background:var(--green-dim);
+            border:1px solid var(--border2);
+            display:flex; align-items:center; justify-content:center;
+        }
+        .payment-label{font-size:.82rem; font-weight:500; color:var(--muted)}
+        .payment-amount{
+            font-family:"Montserrat",sans-serif;
+            font-size:1.25rem; font-weight:800;
+            color:var(--green);
+            text-shadow:0 0 12px rgba(57,255,20,.35);
+        }
+
+        /* ─── HISTORY ─── */
+        .history-wrap{
+            background:var(--panel);
+            border:1px solid var(--border);
+            border-radius:var(--r3);
+            overflow:hidden;
+        }
+        .history-head{
+            display:flex; align-items:center; justify-content:space-between;
+            padding:16px 24px;
+            border-bottom:1px solid var(--border);
+        }
+        .history-head-title{
+            font-size:.65rem; font-weight:700;
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.14em;
+            font-family:"Montserrat",sans-serif;
+        }
+        .history-count{
+            font-size:.65rem; font-weight:700;
+            background:var(--green-dim);
+            color:var(--green-text);
+            border:1px solid var(--border2);
+            padding:3px 10px; border-radius:100px;
+            font-family:"Montserrat",sans-serif;
+        }
+
+        .hist-row{
+            display:flex; align-items:center;
+            padding:14px 24px;
+            cursor:pointer;
+            border-bottom:1px solid var(--border);
+            transition:background .18s ease;
+            gap:14px;
+        }
+        .hist-row:last-child{border-bottom:none}
+        .hist-row:hover{background:rgba(57,255,20,.03)}
+
+        .hist-dot{
+            width:8px; height:8px; border-radius:50%; flex-shrink:0;
+        }
+        .hist-dot-en-hora{background:var(--green); box-shadow:0 0 8px var(--green)}
+        .hist-dot-realizado{background:#64748b}
+        .hist-dot-pendiente{background:#f59e0b}
+
+        .hist-info{flex:1; min-width:0}
+        .hist-name{font-size:.9rem; font-weight:600; margin-bottom:2px}
+        .hist-date{font-size:.75rem; color:var(--muted); font-weight:400}
+        .hist-status{
+            font-size:.65rem; font-weight:700;
+            font-family:"Montserrat",sans-serif;
+            text-transform:uppercase; letter-spacing:.08em;
+        }
+        .hist-status-en-hora{color:var(--green-text)}
+        .hist-status-realizado{color:#64748b}
+        .hist-status-pendiente{color:#f59e0b}
+        .hist-arrow{color:var(--muted2); flex-shrink:0}
+
+        /* ─── EMPTY STATE ─── */
+        .empty-hist{
+            padding:32px 24px;
+            text-align:center;
+            color:var(--muted);
+            font-size:.82rem;
+        }
+
+        /* ─── MODAL ─── */
+        .modal-bg{
+            position:fixed; inset:0;
+            background:rgba(5,10,20,.8);
+            backdrop-filter:blur(12px);
+            display:flex; align-items:flex-end; justify-content:center;
+            z-index:200; padding:0;
+        }
+        @media(min-width:600px){.modal-bg{align-items:center; padding:20px}}
+
+        .modal{
+            background:var(--panel2);
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:28px 28px 0 0;
+            width:100%; max-width:460px;
+            max-height:92vh; overflow-y:auto;
+            animation:sheetUp .35s cubic-bezier(.16,1,.3,1);
+        }
+        @media(min-width:600px){.modal{border-radius:28px; animation:scaleIn .3s cubic-bezier(.16,1,.3,1)}}
+        @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+        .modal-drag{
+            width:36px; height:4px; border-radius:2px;
+            background:rgba(255,255,255,.15);
+            margin:14px auto 0;
+        }
+        @media(min-width:600px){.modal-drag{display:none}}
+
+        .modal-hero{
+            text-align:center;
+            padding:24px 24px 20px;
+            border-bottom:1px solid var(--border);
+        }
+        .modal-logo{
+            width:64px; height:64px; border-radius:18px;
+            background:var(--green-dim); border:1px solid var(--border2);
+            display:flex; align-items:center; justify-content:center;
+            margin:0 auto 14px; overflow:hidden;
+        }
+        .modal-logo img{width:56px; border-radius:14px}
+        .modal-title{
+            font-family:"Montserrat",sans-serif;
+            font-size:1.1rem; font-weight:800;
+            margin-bottom:3px;
+        }
+        .modal-sub{font-size:.78rem; color:var(--muted); margin-bottom:16px}
+
+        .modal-body{padding:20px 20px 8px}
+        .modal-grid{
+            display:grid; grid-template-columns:1fr 1fr;
+            gap:8px; margin-bottom:12px;
+        }
+        .mf{
+            background:rgba(255,255,255,.04);
+            border:1px solid var(--border);
+            border-radius:12px; padding:14px;
+        }
+        .mf-l{
+            font-size:.6rem; font-weight:600;
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.1em;
+            margin-bottom:5px;
+        }
+        .mf-v{font-size:.9rem; font-weight:600}
+        .mf-full{grid-column:span 2}
+
+        .modal-payment{
+            background:linear-gradient(135deg, rgba(57,255,20,.08), rgba(57,255,20,.04));
+            border:1px solid var(--border2);
+            border-radius:14px; padding:16px;
+            margin:0 0 20px;
+        }
+        .modal-pay-title{
+            font-size:.6rem; font-weight:700;
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.12em;
+            margin-bottom:12px; font-family:"Montserrat",sans-serif;
+        }
+        .modal-pay-row{
+            display:flex; justify-content:space-between; align-items:center;
+            font-size:.85rem;
+            margin-bottom:8px;
+        }
+        .modal-pay-row:last-child{margin-bottom:0}
+        .pay-green{color:var(--green); font-family:"Montserrat",sans-serif; font-size:.95rem; font-weight:800}
+
+        .modal-footer-area{
+            position:sticky; bottom:0;
+            background:var(--panel2);
+            border-top:1px solid var(--border);
+            padding:16px 20px;
+        }
+        .modal-close{
+            width:100%; padding:14px;
+            background:var(--green); color:var(--navy);
+            border:none; border-radius:14px;
+            font-family:"Montserrat",sans-serif;
+            font-size:.9rem; font-weight:800;
+            cursor:pointer; letter-spacing:.04em;
+            transition:all .2s ease;
+        }
+        .modal-close:hover{background:#50ff2a; transform:translateY(-1px)}
+
+        /* ─── UTILS ─── */
+        .hidden{display:none!important}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        @media(max-width:640px){
+            .info-grid{grid-template-columns:repeat(2,1fr)}
+            .info-cell:nth-child(2){border-right:none}
+            .info-cell:nth-child(1),
+            .info-cell:nth-child(2){border-bottom:1px solid var(--border)}
+            .stats-row{grid-template-columns:repeat(2,1fr)}
+            nav{padding:12px 16px}
+            .page{padding:0 16px 60px}
+            .search-row{flex-direction:column}
+            .search-btn{width:100%; padding:14px}
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <img src="https://i.ibb.co/HTbsv698/TUM-CEO-verde-fluo-500x500.png" alt="TUM Logo" class="logo-img">
-                    <div class="logo-text">
-                        <!--<h1> TeEchoUnaMano </h1>
-                        <p>Sistema de Verificación</p>-->
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <a href="#" class="header-link support-link">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                            <circle cx="12" cy="17" r="0.5" fill="currentColor"></circle>
-                        </svg>
-                        Soporte
-                    </a>
-                    <a href="https://wa.me/593963114440?text=Hola%2C%20necesito%20ayuda%20con%20mi%20agendamiento" target="_blank" class="header-link whatsapp-link">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                        </svg>
-                        WhatsApp
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <div class="hero-section" id="heroSection">
-        <div class="container">
-            <h1>Mi Agenda</h1>
-            <p class="subtitle">Ingresa tu código para ver el estado de tus agendamientos</p>
-            
-            <!-- Search Box -->
-            <div class="search-box-wrapper">
-                <form id="searchForm">
-                    <div class="search-input-container">
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            class="search-input" 
-                            placeholder="Ej: CLI-12345"
-                            required
-                            autocomplete="off"
-                        >
-                    </div>
-                    <button type="submit" id="searchButton" class="search-button">
-                        Consultar Estado
-                    </button>
-                </form>
-                
-                <!-- Error Message -->
-                <div id="errorMessage" class="error-message hidden"></div>
+<!-- TICKER -->
+<div class="ticker">
+    <div class="ticker-track">
+        <span class="ticker-item">TUM — TeEchoUnaMano</span>
+        <span class="ticker-item">Servicio Profesional de Limpieza</span>
+        <span class="ticker-item">Verifica tu Agendamiento</span>
+        <span class="ticker-item">Atenci&#xF3;n al Cliente 24/7</span>
+        <span class="ticker-item">TUM — TeEchoUnaMano</span>
+        <span class="ticker-item">Servicio Profesional de Limpieza</span>
+        <span class="ticker-item">Verifica tu Agendamiento</span>
+        <span class="ticker-item">Atenci&#xF3;n al Cliente 24/7</span>
+        <span class="ticker-item">TUM — TeEchoUnaMano</span>
+        <span class="ticker-item">Servicio Profesional de Limpieza</span>
+        <span class="ticker-item">Verifica tu Agendamiento</span>
+        <span class="ticker-item">Atenci&#xF3;n al Cliente 24/7</span>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <div class="nav-brand">
+            <div class="nav-logo-wrap">
+                <img src="https://i.ibb.co/HTbsv698/TUM-CEO-verde-fluo-500x500.png" alt="TUM">
+            </div>
+            <span class="nav-brand-name">TUM<em> Agenda</em></span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link nav-link-ghost">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>
+                Soporte
+            </a>
+            <a href="https://wa.me/593963114440?text=Hola%2C%20necesito%20ayuda%20con%20mi%20agendamiento" target="_blank" class="nav-link nav-link-wa">
+                <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page">
+
+    <!-- HERO -->
+    <div class="hero" id="heroSection">
+        <div class="hero-eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">Sistema en l&#xED;nea</span>
+        </div>
+        <h1 class="hero-title">Tu <span>Agenda</span><br>en tiempo real</h1>
+        <p class="hero-sub">Ingresa tu c&#xF3;digo de cliente para consultar el estado de todos tus servicios</p>
+
+        <div class="search-card">
+            <label class="search-label" for="searchInput">C&#xF3;digo de cliente</label>
+            <form id="searchForm">
+                <div class="search-row">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Ej&#x3A; CLI-12345 &#xF3; e6577f24" required autocomplete="off">
+                    <button type="submit" id="searchButton" class="search-btn">Consultar</button>
+                </div>
+            </form>
+            <div class="search-hint">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                Encuentra tu c&#xF3;digo en el correo de confirmaci&#xF3;n
+            </div>
+            <div id="errorMessage" class="error-msg hidden">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span id="errorText"></span>
             </div>
         </div>
     </div>
 
-    <!-- Statistics Section (Inicialmente oculto) -->
-    <div class="container">
-        <div id="statsSection" class="stats-section hidden">
-            <div class="stat-card">
-                <div class="stat-value" id="totalServicios">0</div>
-                <div class="stat-label">Total Servicios</div>
+    <!-- RESULTS -->
+    <div id="resultsArea" class="hidden">
+
+        <!-- STATS -->
+        <div id="statsRow" class="stats-row">
+            <div class="stat">
+                <div class="stat-n" id="totalServicios">0</div>
+                <div class="stat-l">Servicios</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="realizados">0</div>
-                <div class="stat-label">Realizados</div>
+            <div class="stat">
+                <div class="stat-n" id="realizados">0</div>
+                <div class="stat-l">Realizados</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="pendientes">0</div>
-                <div class="stat-label">Pendientes</div>
+            <div class="stat">
+                <div class="stat-n" id="pendientes">0</div>
+                <div class="stat-l">Pendientes</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalPagado">$0</div>
-                <div class="stat-label">Total Pagado</div>
+            <div class="stat">
+                <div class="stat-n" id="totalPagado">$0</div>
+                <div class="stat-l">Pagado</div>
             </div>
         </div>
 
-        <!-- Results Container (Inicialmente oculto) -->
-        <div id="recordsContainer" class="hidden">
-            <!-- Main Record -->
-            <div id="mainRecord"></div>
+        <!-- MAIN CARD -->
+        <div id="mainRecord"></div>
 
-            <!-- History Section -->
-            <div class="history-section">
-                <div class="history-header">Historial de Servicios</div>
-                <div id="otherRecords"></div>
+        <!-- HISTORY -->
+        <div class="history-wrap">
+            <div class="history-head">
+                <span class="history-head-title">Historial de Servicios</span>
+                <span class="history-count" id="histCount">0 registros</span>
             </div>
+            <div id="otherRecords"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modal-bg hidden">
+    <div class="modal">
+        <div class="modal-drag"></div>
+        <div id="modalBody"></div>
+        <div class="modal-footer-area">
+            <button onclick="closeModal()" class="modal-close">Cerrar</button>
         </div>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div id="modalOverlay" class="modal-overlay hidden">
-        <div class="modal-content">
-            <div id="modalBody"></div>
-            <div class="modal-close">
-                <button onclick="closeModal()" class="close-button">Cerrar</button>
+<script>
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwJObvioLWCc1ChDBwj3Kag77whhtdzT8TzwxB9zUgD4ECV9avQ717vl6uh7wGmvWkR/exec';
+let allRecords=[];
+function formatDate(s){if(!s)return'-';const d=new Date(s);if(isNaN(d.getTime()))return s;const m=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return d.getDate()+' '+m[d.getMonth()]+' '+d.getFullYear()}
+function getStatus(r){const realizado=r['Realizado']==='TRUE'||r['Realizado']===true;const enHora=r['En Hora']==='TRUE'||r['En Hora']===true;if(realizado)return{label:'Realizado',cls:'realizado'};if(enHora)return{label:'En Hora',cls:'en-hora'};return{label:'Pendiente',cls:'pendiente'}}
+function badge(s){return'<span class="badge badge-'+s.cls+'">'+s.label+'</span>'}
+
+function updateStats(recs){
+    let rea=0,paid=0;
+    recs.forEach(r=>{
+        if(r.data['Realizado']==='TRUE'||r.data['Realizado']===true)rea++;
+        paid+=parseFloat(r.data['RC_Pagos_Total'])||0;
+    });
+    document.getElementById('totalServicios').textContent=recs.length;
+    document.getElementById('realizados').textContent=rea;
+    document.getElementById('pendientes').textContent=recs.length-rea;
+    document.getElementById('totalPagado').textContent='$'+paid.toFixed(0);
+    document.getElementById('histCount').textContent=(recs.length-1)+' registro'+(recs.length-1!==1?'s':'');
+}
+
+function createMainCard(rec,idx){
+    const d=rec.data,s=getStatus(d);
+    const name=d['RS_Nombre']||'-';
+    const code=d['RS_Id_Susc']||'-';
+    const date=d['A_Fecha']||'-';
+    const time=d['A_Check-IN']||'-';
+    const cel=d['RS_Celular']||'-';
+    const paid=(parseFloat(d['RC_Pagos_Total'])||0).toFixed(2);
+    const tot=(parseFloat(d['A_Total'])||0).toFixed(2);
+    return `<div class="appt-card" onclick="openModal(${idx})">
+        <div class="appt-card-accent"></div>
+        <div class="appt-card-body">
+            <div class="appt-top">
+                <div>
+                    <div class="appt-client">${name}</div>
+                    <div class="appt-code">${code}</div>
+                </div>
+                ${badge(s)}
+            </div>
+            <div class="info-grid">
+                <div class="info-cell"><div class="info-lbl">Fecha</div><div class="info-val">${formatDate(date)}</div></div>
+                <div class="info-cell"><div class="info-lbl">Hora</div><div class="info-val">${time}</div></div>
+                <div class="info-cell"><div class="info-lbl">Celular</div><div class="info-val">${cel}</div></div>
+                <div class="info-cell"><div class="info-lbl">Total</div><div class="info-val">$${tot}</div></div>
+            </div>
+            <div class="payment-box">
+                <div class="payment-left">
+                    <div class="payment-icon">
+                        <svg width="15" height="15" fill="none" stroke="#39FF14" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    </div>
+                    <span class="payment-label">Monto Pagado</span>
+                </div>
+                <span class="payment-amount">$${paid}</span>
             </div>
         </div>
-    </div>
+    </div>`;
+}
 
-    <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJObvioLWCc1ChDBwj3Kag77whhtdzT8TzwxB9zUgD4ECV9avQ717vl6uh7wGmvWkR/exec';
-        let allRecords = [];
+function dotClass(cls){return'hist-dot hist-dot-'+cls}
+function statusClass(cls){return'hist-status hist-status-'+cls}
 
-        function formatDate(dateStr) {
-            if (!dateStr) return '-';
-            const date = new Date(dateStr);
-            if (isNaN(date.getTime())) return dateStr;
-            
-            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-            const day = date.getDate();
-            const month = months[date.getMonth()];
-            const year = date.getFullYear();
-            
-            return `${day} ${month} ${year}`;
-        }
+function createHistRow(rec,idx){
+    const d=rec.data,s=getStatus(d);
+    return `<div class="hist-row" onclick="openModal(${idx})">
+        <div class="${dotClass(s.cls)}"></div>
+        <div class="hist-info">
+            <div class="hist-name">${d['RS_Nombre']||'-'}</div>
+            <div class="hist-date">${formatDate(d['A_Fecha'])}</div>
+        </div>
+        <span class="${statusClass(s.cls)}">${s.label}</span>
+        <svg class="hist-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>`;
+}
 
-        function getStatus(record) {
-            const enHora = record['En Hora'] === 'TRUE' || record['En Hora'] === true;
-            const realizado = record['Realizado'] === 'TRUE' || record['Realizado'] === true;
+function openModal(idx){
+    const d=allRecords[idx].data,s=getStatus(d);
+    const name=d['RS_Nombre']||'-';
+    const code=d['RS_Id_Susc']||'-';
+    const date=d['A_Fecha']||'-';
+    const time=d['A_Check-IN']||'-';
+    const cel=d['RS_Celular']||'-';
+    const paid=(parseFloat(d['RC_Pagos_Total'])||0).toFixed(2);
+    const tot=(parseFloat(d['A_Total'])||0).toFixed(2);
+    document.getElementById('modalBody').innerHTML=`
+        <div class="modal-hero">
+            <div class="modal-logo"><img src="https://i.ibb.co/HTbsv698/TUM-CEO-verde-fluo-500x500.png"></div>
+            <div class="modal-title">TUM Agenda</div>
+            <div class="modal-sub">Servicio de Limpieza Profesional</div>
+            ${badge(s)}
+        </div>
+        <div class="modal-body">
+            <div class="modal-grid">
+                <div class="mf"><div class="mf-l">C&#xF3;digo</div><div class="mf-v">${code}</div></div>
+                <div class="mf"><div class="mf-l">Estado</div><div class="mf-v">${s.label}</div></div>
+                <div class="mf mf-full"><div class="mf-l">Cliente</div><div class="mf-v">${name}</div></div>
+                <div class="mf"><div class="mf-l">Fecha</div><div class="mf-v">${formatDate(date)}</div></div>
+                <div class="mf"><div class="mf-l">Hora</div><div class="mf-v">${time}</div></div>
+                <div class="mf mf-full"><div class="mf-l">Celular</div><div class="mf-v">${cel}</div></div>
+            </div>
+            <div class="modal-payment">
+                <div class="modal-pay-title">Detalle de Pago</div>
+                <div class="modal-pay-row"><span>Total Servicio</span><span>$${tot}</span></div>
+                <div class="modal-pay-row"><span class="pay-green">Pagado</span><span class="pay-green">$${paid}</span></div>
+            </div>
+        </div>`;
+    document.getElementById('modalOverlay').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+}
+function closeModal(){
+    document.getElementById('modalOverlay').classList.add('hidden');
+    document.body.style.overflow='';
+}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 
-            if (realizado) return { label: 'Realizado', class: 'realizado' };
-            if (enHora) return { label: 'En Hora', class: 'en-hora' };
-            return { label: 'Pendiente', class: 'pendiente' };
-        }
+document.getElementById('searchForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const val=document.getElementById('searchInput').value.trim();
+    if(!val)return;
+    const btn=document.getElementById('searchButton');
+    const errEl=document.getElementById('errorMessage');
+    const errTxt=document.getElementById('errorText');
+    const resultsArea=document.getElementById('resultsArea');
+    const statsRow=document.getElementById('statsRow');
+    const heroEl=document.getElementById('heroSection');
 
-        function updateStatistics(records) {
-            const total = records.length;
-            let realizados = 0;
-            let enHora = 0;
-            let totalPagado = 0;
+    btn.disabled=true;
+    btn.innerHTML='<span style="display:inline-block;width:13px;height:13px;border:2px solid rgba(15,23,42,.3);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;"></span>Buscando';
+    errEl.classList.add('hidden');
+    resultsArea.classList.add('hidden');
+    statsRow.classList.remove('visible');
 
-            records.forEach(record => {
-                const realizado = record.data['Realizado'] === 'TRUE' || record.data['Realizado'] === true;
-                const enHoraVal = record.data['En Hora'] === 'TRUE' || record.data['En Hora'] === true;
-                
-                if (realizado) realizados++;
-                if (enHoraVal) enHora++;
-                
-                totalPagado += parseFloat(record.data['RC_Pagos_Total']) || 0;
-            });
+    try{
+        const res=await fetch(SCRIPT_URL+'?RS_Id_Susc='+encodeURIComponent(val),{headers:{'Accept':'application/json'}});
+        if(!res.ok)throw new Error('Error HTTP: '+res.status);
+        const result=await res.json();
+        if(!result.success)throw new Error(result.message||'Error al buscar datos');
 
-            const pendientes = total - realizados;
-
-            document.getElementById('totalServicios').textContent = total;
-            document.getElementById('realizados').textContent = realizados;
-            document.getElementById('pendientes').textContent = pendientes;
-            document.getElementById('totalPagado').textContent = `$${totalPagado.toFixed(2)}`;
-        }
-
-        function createMainRecordCard(record, index) {
-            const cliente = record.data['RS_Nombre'] || '-';
-            const codigo = record.data['RS_Id_Susc'] || '-';
-            const fecha = record.data['A_Fecha'] || '-';
-            const celular = record.data['RS_Celular'] || '-';
-            const horaServicio = record.data['A_Check-IN'] || '-';
-            const pagoAdelantado = parseFloat(record.data['RC_Pagos_Total']) || 0;
-            const total = parseFloat(record.data['A_Total']) || 0;
-            const status = getStatus(record.data);
-
-            return `
-                <div class="main-record-card fade-in" onclick="openModal(${index})">
-                    <div class="record-header">
-                        <div>
-                            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">${cliente}</h2>
-                            <p style="color: var(--apple-text-secondary); font-size: 0.9rem;">Código: ${codigo}</p>
-                        </div>
-                        <span class="status-badge status-${status.class}">${status.label}</span>
-                    </div>
-                    
-                    <div class="record-info-grid">
-                        <div class="info-item">
-                            <div class="info-label">Fecha</div>
-                            <div class="info-value">${formatDate(fecha)}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Hora</div>
-                            <div class="info-value">${horaServicio}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Celular</div>
-                            <div class="info-value">${celular}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Total</div>
-                            <div class="info-value">$${total.toFixed(2)}</div>
-                        </div>
-                    </div>
-
-                    <div class="payment-summary">
-                        <span class="payment-label">Monto Pagado</span>
-                        <span class="payment-value">$${pagoAdelantado.toFixed(2)}</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        function createCompactRecordCard(record, index) {
-            const cliente = record.data['RS_Nombre'] || '-';
-            const fecha = record.data['A_Fecha'] || '-';
-            const status = getStatus(record.data);
-
-            return `
-                <div class="compact-record" onclick="openModal(${index})">
-                    <div class="compact-record-content">
-                        <div class="compact-info">
-                            <div class="compact-status">${status.label}</div>
-                            <div class="compact-name">${cliente}</div>
-                            <div class="compact-date">${formatDate(fecha)}</div>
-                        </div>
-                        <svg width="20" height="20" fill="none" stroke="#D2D2D7" stroke-width="2" viewBox="0 0 24 24">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </div>
-                </div>
-            `;
-        }
-
-        function openModal(index) {
-            const record = allRecords[index];
-            const cliente = record.data['RS_Nombre'] || '-';
-            const codigo = record.data['RS_Id_Susc'] || '-';
-            const fecha = record.data['A_Fecha'] || '-';
-            const celular = record.data['RS_Celular'] || '-';
-            const horaServicio = record.data['A_Check-IN'] || '-';
-            const pagoAdelantado = parseFloat(record.data['RC_Pagos_Total']) || 0;
-            const total = parseFloat(record.data['A_Total']) || 0;
-            const status = getStatus(record.data);
-
-            document.getElementById('modalBody').innerHTML = `
-                <div class="modal-header-bg">
-                    <div style="width: 64px; height: 64px; margin: 0 auto 1rem;">
-                        <img src="https://i.ibb.co/HTbsv698/TUM-CEO-verde-fluo-500x500.png" style="width: 100%; border-radius: 12px;">
-                    </div>
-                    <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem;">Agenda TUM</h2>
-                    <p style="font-size: 0.875rem; color: var(--apple-text-secondary);">Servicio de Limpieza Profesional</p>
-                    
-                    <div style="margin-top: 1rem; display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; color: white; background: ${status.class === 'realizado' ? 'var(--apple-blue)' : status.class === 'en-hora' ? 'var(--apple-green)' : '#FF9500'};">
-                        ${status.label}
-                    </div>
-                </div>
-                
-                <div class="modal-grid">
-                    <div class="modal-field-box">
-                        <div class="modal-field-label-box">CÓDIGO</div>
-                        <div class="modal-field-value-box">${codigo}</div>
-                    </div>
-                    <div class="modal-field-box">
-                        <div class="modal-field-label-box">CLIENTE</div>
-                        <div class="modal-field-value-box">${cliente}</div>
-                    </div>
-                    <div class="modal-field-box">
-                        <div class="modal-field-label-box">FECHA</div>
-                        <div class="modal-field-value-box">${formatDate(fecha)}</div>
-                    </div>
-                    <div class="modal-field-box">
-                        <div class="modal-field-label-box">HORA</div>
-                        <div class="modal-field-value-box">${horaServicio}</div>
-                    </div>
-                    <div class="modal-field-box" style="grid-column: span 2;">
-                        <div class="modal-field-label-box">CELULAR</div>
-                        <div class="modal-field-value-box">${celular}</div>
-                    </div>
-                </div>
-
-                <div style="margin: 0 1.5rem 1.5rem; background: #F5F5F7; padding: 1.5rem; border-radius: 12px;">
-                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--apple-text-secondary); margin-bottom: 1rem;">DETALLE DE PAGO</div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="font-size: 0.9rem;">Total Servicio</span>
-                        <span style="font-weight: 600;">$${total.toFixed(2)}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 0.9rem; color: var(--apple-green);">Pagado</span>
-                        <span style="font-weight: 700; color: var(--apple-green);">$${pagoAdelantado.toFixed(2)}</span>
-                    </div>
-                </div>
-            `;
-
-            const overlay = document.getElementById('modalOverlay');
-            overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.add('hidden');
-            document.body.style.overflow = '';
-        }
-
-        document.getElementById('modalOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
+        allRecords=(result.data||[]).map((item,i)=>{
+            const raw=item['A_Fecha'];
+            const d=raw?new Date(raw):null;
+            return{data:item,date:d&&!isNaN(d)?d.toISOString():null,index:i};
+        }).sort((a,b)=>{
+            if(!a.date&&!b.date)return 0;
+            if(!a.date)return 1;
+            if(!b.date)return -1;
+            return new Date(b.date)-new Date(a.date);
         });
 
-        document.getElementById('searchForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const searchValue = document.getElementById('searchInput').value.trim();
-            if (!searchValue) return;
-
-            const searchButton = document.getElementById('searchButton');
-            const errorMessage = document.getElementById('errorMessage');
-            const recordsContainer = document.getElementById('recordsContainer');
-            const statsSection = document.getElementById('statsSection');
-            const heroSection = document.getElementById('heroSection');
-
-            // Show loading
-            searchButton.disabled = true;
-            searchButton.innerHTML = `<span style="display:inline-block; animation: spin 1s linear infinite; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white; border-radius: 50%; width: 16px; height: 16px; vertical-align: middle; margin-right: 8px;"></span> Buscando...`;
-            errorMessage.classList.add('hidden');
-            recordsContainer.classList.add('hidden');
-            statsSection.classList.remove('visible');
-            statsSection.classList.add('hidden');
-
-            try {
-                const url = `${SCRIPT_URL}?RS_Id_Susc=${encodeURIComponent(searchValue)}`;
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-
-                const result = await response.json();
-
-                if (!result.success) throw new Error(result.message || 'Error al buscar datos');
-
-                const data = result.data || [];
-
-                allRecords = data.map((item, index) => {
-                    const dateStr = item['A_Fecha'];
-                    let date = null;
-                    if (dateStr) {
-                        const parsedDate = new Date(dateStr);
-                        if (!isNaN(parsedDate.getTime())) {
-                            date = parsedDate.toISOString();
-                        }
-                    }
-                    return {
-                        data: item,
-                        date: date,
-                        id: `record-${index}`,
-                        index: index
-                    };
-                });
-
-                allRecords.sort((a, b) => {
-                    if (!a.date && !b.date) return 0;
-                    if (!a.date) return 1;
-                    if (!b.date) return -1;
-                    return new Date(b.date).getTime() - new Date(a.date).getTime();
-                });
-
-                if (allRecords.length === 0) {
-                    errorMessage.textContent = 'No se encontraron resultados para este código.';
-                    errorMessage.classList.remove('hidden');
-                } else {
-                    // Ajustar hero section
-                    heroSection.classList.add('with-results');
-                    
-                    // Mostrar estadísticas con animación
-                    statsSection.classList.remove('hidden');
-                    setTimeout(() => {
-                        statsSection.classList.add('visible');
-                    }, 100);
-
-                    // Display records
-                    const mainRecord = allRecords[0];
-                    const otherRecords = allRecords.slice(1);
-
-                    document.getElementById('mainRecord').innerHTML = createMainRecordCard(mainRecord, 0);
-                    
-                    if (otherRecords.length > 0) {
-                        document.getElementById('otherRecords').innerHTML = otherRecords.map((record, i) => 
-                            createCompactRecordCard(record, i + 1)
-                        ).join('');
-                    } else {
-                        document.getElementById('otherRecords').innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--apple-text-secondary); font-size: 0.875rem;">Sin historial previo</div>`;
-                    }
-
-                    updateStatistics(allRecords);
-                    recordsContainer.classList.remove('hidden');
-                }
-            } catch (err) {
-                errorMessage.textContent = err.message || 'Error de conexión. Intente nuevamente.';
-                errorMessage.classList.remove('hidden');
-            } finally {
-                searchButton.disabled = false;
-                searchButton.innerHTML = 'Consultar Estado';
-            }
-        });
-    </script>
+        if(!allRecords.length){
+            errTxt.textContent='No se encontraron resultados para este código.';
+            errEl.classList.remove('hidden');
+        } else {
+            heroEl.classList.add('compact');
+            document.getElementById('mainRecord').innerHTML=createMainCard(allRecords[0],0);
+            const others=allRecords.slice(1);
+            document.getElementById('otherRecords').innerHTML=others.length
+                ?others.map((r,i)=>createHistRow(r,i+1)).join('')
+                :'<div class="empty-hist">Sin historial previo</div>';
+            updateStats(allRecords);
+            resultsArea.classList.remove('hidden');
+            setTimeout(()=>statsRow.classList.add('visible'),60);
+        }
+    }catch(err){
+        errTxt.textContent=err.message||'Error de conexión. Intente nuevamente.';
+        errEl.classList.remove('hidden');
+    }finally{
+        btn.disabled=false;
+        btn.innerHTML='Consultar';
+    }
+});
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
