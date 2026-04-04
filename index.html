@@ -1552,7 +1552,7 @@
                 <div>
                     <div class="stat-l">Saldo a pagar</div>
                     <div class="stat-n red" id="totalPagado">Bs. 0</div>
-                    <div class="stat-sub" id="saldoSub">Por el servicio activo</div>
+                    <div class="stat-sub" id="saldoSub">⚠ Sin pago, sus agendamientos serán cancelados</div>
                 </div>
             </div>
         </div>
@@ -1636,7 +1636,7 @@ function updateStats(recs){
         balIcon.querySelector('svg').setAttribute('stroke','#f87171');
         saldoBadge.textContent='Pendiente';
         saldoBadge.className='stat-badge red';
-        saldoSub.textContent='Por liquidar en el próximo servicio';
+        saldoSub.textContent='⚠ Sin pago, sus agendamientos serán cancelados';
         saldoCard.classList.add('red-card');
     } else {
         balEl.textContent='Al día';
