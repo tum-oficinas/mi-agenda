@@ -909,8 +909,8 @@
         /* ─── STATS ROW ─── */
         .stats-row{
             display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:8px;
+            grid-template-columns:1fr 1fr;
+            gap:10px;
             margin-bottom:14px;
             opacity:0; transform:translateY(16px);
             transition:opacity .4s ease, transform .4s ease;
@@ -920,32 +920,54 @@
         .stat{
             background:var(--panel);
             border:1px solid var(--border);
-            border-radius:var(--r);
-            padding:12px 10px;
-            text-align:center;
+            border-radius:var(--r2);
+            padding:20px 22px;
+            display:flex; flex-direction:column; gap:14px;
             position:relative; overflow:hidden;
-            transition:border-color .2s, transform .2s;
+            transition:border-color .25s, transform .2s, box-shadow .25s;
         }
-        .stat:hover{border-color:var(--border2); transform:translateY(-2px)}
-        .stat::after{
+        .stat:hover{border-color:var(--border2); transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,.3)}
+        .stat::before{
             content:"";
-            position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-            width:40%; height:1px;
+            position:absolute; top:0; left:0; right:0; height:1px;
             background:linear-gradient(90deg, transparent, var(--green-glow), transparent);
+            opacity:.5;
+        }
+        .stat.red-card{border-color:rgba(239,68,68,.2)}
+        .stat.red-card::before{background:linear-gradient(90deg, transparent, rgba(239,68,68,.35), transparent)}
+        .stat-top{display:flex; align-items:center; justify-content:space-between}
+        .stat-icon{
+            width:38px; height:38px; border-radius:11px; flex-shrink:0;
+            display:flex; align-items:center; justify-content:center;
+            background:var(--green-dim); border:1px solid var(--border2);
+        }
+        .stat-icon.red{background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.25)}
+        .stat-icon.blue{background:rgba(99,179,237,.08); border-color:rgba(99,179,237,.2)}
+        .stat-badge{
+            font-size:.55rem; font-weight:700; font-family:var(--font-body);
+            text-transform:uppercase; letter-spacing:.1em;
+            padding:3px 9px; border-radius:100px;
+            background:var(--green-dim); color:var(--green-text); border:1px solid var(--border2);
+        }
+        .stat-badge.red{background:rgba(239,68,68,.08); color:#f87171; border-color:rgba(239,68,68,.25)}
+        .stat-badge.ok{background:rgba(0,255,135,.1); color:var(--green)}
+        .stat-l{
+            font-size:.56rem; font-weight:600;
+            font-family:var(--font-body);
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.14em;
         }
         .stat-n{
             font-family:var(--font-title);
-            font-size:1.3rem; font-weight:700;
-            color:var(--green); letter-spacing:-.02em;
-            line-height:1;
-            text-shadow:0 0 14px rgba(0,255,135,.35);
+            font-size:1.45rem; font-weight:800;
+            color:var(--white); letter-spacing:-.02em;
+            line-height:1.1;
         }
-        .stat-l{
-            font-size:.55rem; font-weight:500;
-            font-family:var(--font-body);
-            color:var(--body-text);
-            text-transform:uppercase; letter-spacing:.12em;
-            margin-top:4px;
+        .stat-n.green{color:var(--green); text-shadow:0 0 16px rgba(0,255,135,.3)}
+        .stat-n.red{color:#f87171; text-shadow:0 0 16px rgba(239,68,68,.25)}
+        .stat-sub{
+            font-size:.72rem; font-family:var(--font-body);
+            color:var(--muted); margin-top:2px;
         }
 
         /* ─── MAIN APPOINTMENT CARD ─── */
@@ -968,6 +990,26 @@
             height:2px;
             background:linear-gradient(90deg, transparent 0%, var(--green) 40%, transparent 100%);
             opacity:.6;
+        }
+        .appt-card.is-today{
+            border-color:rgba(0,255,135,.45);
+            box-shadow:0 0 0 1px rgba(0,255,135,.15), 0 8px 32px rgba(0,255,135,.08);
+        }
+        .appt-card.is-today .appt-card-accent{
+            height:3px; opacity:1;
+            background:linear-gradient(90deg, transparent 0%, var(--green) 30%, #1affa0 50%, var(--green) 70%, transparent 100%);
+        }
+        .today-pill{
+            display:inline-flex; align-items:center; gap:5px;
+            background:var(--green); color:#000;
+            font-family:var(--font-title); font-size:.58rem; font-weight:800;
+            text-transform:uppercase; letter-spacing:.1em;
+            padding:3px 10px; border-radius:100px;
+            margin-bottom:10px;
+            animation:badge-pulse 2.5s ease-in-out infinite;
+        }
+        .today-pill-dot{
+            width:5px; height:5px; border-radius:50%; background:#000; opacity:.5;
         }
         .appt-card-body{padding:18px 20px}
 
@@ -1018,6 +1060,22 @@
             color:#fbbf24;
             border:1px solid rgba(245,158,11,.25);
         }
+        .badge-en-hora-deuda{
+            background:linear-gradient(90deg, var(--green) 0%, #c8f542 60%, #f87171 100%);
+            color:#000;
+            font-weight:800;
+            box-shadow:0 0 12px rgba(0,255,135,.3), 0 0 20px rgba(239,68,68,.2);
+            animation:badge-pulse 2.5s ease-in-out infinite;
+            display:flex; align-items:center; gap:5px;
+        }
+        .badge-en-hora-deuda .badge-sep{
+            opacity:.4; font-weight:400; font-size:.7em; margin:0 1px;
+        }
+        .badge-en-hora-deuda .badge-deuda-amt{
+            background:rgba(0,0,0,.18); border-radius:100px;
+            padding:1px 6px; font-size:.85em;
+        }
+        .appt-badges{display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end;}
 
         /* ─── INFO GRID ─── */
         .info-grid{
@@ -1054,6 +1112,11 @@
             border:1px solid var(--border2);
             border-radius:var(--r);
             padding:12px 16px;
+            transition:background .3s, border-color .3s;
+        }
+        .payment-box.unpaid{
+            background:linear-gradient(135deg, rgba(239,68,68,.10) 0%, rgba(239,68,68,.04) 100%);
+            border-color:rgba(239,68,68,.35);
         }
         .payment-left{display:flex; align-items:center; gap:8px}
         .payment-icon{
@@ -1061,6 +1124,11 @@
             background:var(--green-dim);
             border:1px solid var(--border2);
             display:flex; align-items:center; justify-content:center;
+            transition:background .3s, border-color .3s;
+        }
+        .payment-box.unpaid .payment-icon{
+            background:rgba(239,68,68,.10);
+            border-color:rgba(239,68,68,.30);
         }
         .payment-label{font-size:.75rem; font-weight:400; font-family:var(--font-body); color:var(--body-text)}
         .payment-amount{
@@ -1068,6 +1136,15 @@
             font-size:1rem; font-weight:700;
             color:var(--green);
             text-shadow:0 0 10px rgba(0,255,135,.3);
+            transition:color .3s, text-shadow .3s;
+        }
+        .payment-box.unpaid .payment-amount,
+        .payment-amount-red{
+            color:#f87171;
+            text-shadow:0 0 10px rgba(239,68,68,.35);
+        }
+        .payment-box.unpaid .payment-icon svg{
+            stroke:#f87171;
         }
 
         /* ─── HISTORY ─── */
@@ -1097,6 +1174,28 @@
             padding:2px 9px; border-radius:100px;
         }
 
+        .hist-section-label{
+            display:flex; align-items:center; gap:7px;
+            font-size:.56rem; font-weight:700;
+            font-family:var(--font-body);
+            color:var(--muted);
+            text-transform:uppercase; letter-spacing:.15em;
+            padding:10px 18px 8px;
+            background:rgba(255,255,255,.015);
+            border-top:1px solid var(--border);
+        }
+        .hist-section-label:first-child{border-top:none}
+        .hist-section-label .sect-dot{
+            width:5px; height:5px; border-radius:50%;
+            background:var(--muted2); flex-shrink:0;
+        }
+        .hist-section-label.active-label{color:rgba(0,255,135,.6)}
+        .hist-section-label.active-label .sect-dot{background:var(--green); box-shadow:0 0 6px var(--green)}
+        .hist-section-label.realizado-label{color:rgba(100,116,139,.7)}
+        .hist-section-label.realizado-label .sect-dot{background:#64748b}
+        .hist-section-label.pendiente-label{color:rgba(245,158,11,.6)}
+        .hist-section-label.pendiente-label .sect-dot{background:#f59e0b}
+
         .hist-row{
             display:flex; align-items:center;
             padding:11px 18px;
@@ -1107,6 +1206,21 @@
         }
         .hist-row:last-child{border-bottom:none}
         .hist-row:hover{background:rgba(0,255,135,.03)}
+        .hist-row-active{
+            background:linear-gradient(90deg, rgba(0,255,135,.06) 0%, rgba(0,255,135,.02) 100%);
+            border-left:2px solid rgba(0,255,135,.5);
+            padding-left:16px;
+        }
+        .hist-row-active:hover{background:linear-gradient(90deg, rgba(0,255,135,.10) 0%, rgba(0,255,135,.04) 100%)}
+        .hist-row-today{
+            border-left:3px solid var(--green);
+            padding-left:15px;
+        }
+        .hist-row-today .hist-date::after{
+            content:' · Hoy';
+            color:var(--green);
+            font-weight:600;
+        }
 
         .hist-dot{
             width:8px; height:8px; border-radius:50%; flex-shrink:0;
@@ -1225,6 +1339,11 @@
         }
         .modal-pay-row:last-child{margin-bottom:0}
         .pay-green{color:var(--green); font-family:var(--font-title); font-size:.95rem; font-weight:700}
+        .pay-red{color:#f87171; font-family:var(--font-title); font-size:.95rem; font-weight:700}
+        .modal-payment.unpaid{
+            background:linear-gradient(135deg, rgba(239,68,68,.08), rgba(239,68,68,.03));
+            border-color:rgba(239,68,68,.3);
+        }
 
         .modal-footer-area{
             position:sticky; bottom:0;
@@ -1408,21 +1527,33 @@
 
         <!-- STATS -->
         <div id="statsRow" class="stats-row">
+            <!-- Próxima cita -->
             <div class="stat">
-                <div class="stat-n" id="totalServicios">0</div>
-                <div class="stat-l">Servicios</div>
+                <div class="stat-top">
+                    <div class="stat-icon blue">
+                        <svg width="17" height="17" fill="none" stroke="#63b3ed" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <span class="stat-badge" id="citaBadge">Activa</span>
+                </div>
+                <div>
+                    <div class="stat-l">Próxima cita</div>
+                    <div class="stat-n" id="totalServicios">—</div>
+                    <div class="stat-sub" id="citaSub">—</div>
+                </div>
             </div>
-            <div class="stat">
-                <div class="stat-n" id="realizados">0</div>
-                <div class="stat-l">Realizados</div>
-            </div>
-            <div class="stat">
-                <div class="stat-n" id="pendientes">0</div>
-                <div class="stat-l">Pendientes</div>
-            </div>
-            <div class="stat">
-                <div class="stat-n" id="totalPagado">$0</div>
-                <div class="stat-l">Pagado</div>
+            <!-- Saldo pendiente -->
+            <div class="stat" id="saldoCard">
+                <div class="stat-top">
+                    <div class="stat-icon red" id="balIcon">
+                        <svg width="17" height="17" fill="none" stroke="#f87171" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    </div>
+                    <span class="stat-badge red" id="saldoBadge">Pendiente</span>
+                </div>
+                <div>
+                    <div class="stat-l">Saldo a pagar</div>
+                    <div class="stat-n red" id="totalPagado">Bs. 0</div>
+                    <div class="stat-sub" id="saldoSub">Por el servicio activo</div>
+                </div>
             </div>
         </div>
 
@@ -1460,16 +1591,65 @@ function getStatus(r){const realizado=r['Realizado']==='TRUE'||r['Realizado']===
 function badge(s){return'<span class="badge badge-'+s.cls+'">'+s.label+'</span>'}
 
 function updateStats(recs){
-    let rea=0,paid=0;
+    const enHoraRecs=recs.filter(r=>r.data['En Hora']==='TRUE'||r.data['En Hora']===true);
+    const activosRecs=recs.filter(r=>!(r.data['Realizado']==='TRUE'||r.data['Realizado']===true));
+
+    // ── Tarjeta 1: Próxima cita ──
+    const nextRec=enHoraRecs[0]||activosRecs[0];
+    const citaEl=document.getElementById('totalServicios');
+    const citaSub=document.getElementById('citaSub');
+    const citaBadge=document.getElementById('citaBadge');
+    if(nextRec){
+        const nd=nextRec.data;
+        citaEl.textContent=nd['A_Fecha']?formatDate(nd['A_Fecha']):'Sin fecha';
+        citaEl.className='stat-n';
+        citaSub.textContent=(nd['A_Check-IN']||'').slice(0,5)?'a las '+(nd['A_Check-IN']||'').slice(0,5):'Hora por confirmar';
+        if(enHoraRecs.length>0){
+            citaBadge.textContent='En hora';
+            citaBadge.className='stat-badge ok';
+        } else {
+            citaBadge.textContent='Confirmada';
+            citaBadge.className='stat-badge';
+        }
+    } else {
+        citaEl.textContent='Sin cita activa';
+        citaEl.className='stat-n';
+        citaSub.textContent='No hay servicios pendientes';
+        citaBadge.textContent='Sin cita';
+        citaBadge.className='stat-badge';
+    }
+
+    // ── Tarjeta 2: Saldo pendiente — desde campo A_Deuda de la BD ──
+    let saldo=0;
     recs.forEach(r=>{
-        if(r.data['Realizado']==='TRUE'||r.data['Realizado']===true)rea++;
-        paid+=parseFloat(r.data['RC_Pagos_Total'])||0;
+        saldo+=parseFloat(r.data['A_Deuda'])||0;
     });
-    document.getElementById('totalServicios').textContent=recs.length;
-    document.getElementById('realizados').textContent=rea;
-    document.getElementById('pendientes').textContent=recs.length-rea;
-    document.getElementById('totalPagado').textContent='$'+paid.toFixed(0);
-    document.getElementById('histCount').textContent=(recs.length-1)+' registro'+(recs.length-1!==1?'s':'');
+    const balEl=document.getElementById('totalPagado');
+    const balIcon=document.getElementById('balIcon');
+    const saldoBadge=document.getElementById('saldoBadge');
+    const saldoSub=document.getElementById('saldoSub');
+    const saldoCard=document.getElementById('saldoCard');
+    if(saldo>0){
+        balEl.textContent='Bs. '+saldo.toFixed(2);
+        balEl.className='stat-n red';
+        balIcon.className='stat-icon red';
+        balIcon.querySelector('svg').setAttribute('stroke','#f87171');
+        saldoBadge.textContent='Pendiente';
+        saldoBadge.className='stat-badge red';
+        saldoSub.textContent='Por liquidar en el próximo servicio';
+        saldoCard.classList.add('red-card');
+    } else {
+        balEl.textContent='Al día';
+        balEl.className='stat-n green';
+        balIcon.className='stat-icon';
+        balIcon.querySelector('svg').setAttribute('stroke','#00FF87');
+        saldoBadge.textContent='Sin deuda';
+        saldoBadge.className='stat-badge ok';
+        saldoSub.textContent='Todo pagado ✓';
+        saldoCard.classList.remove('red-card');
+    }
+
+    document.getElementById('histCount').textContent=recs.length+' registro'+(recs.length!==1?'s':'');
 }
 
 function createMainCard(rec,idx){
@@ -1479,32 +1659,50 @@ function createMainCard(rec,idx){
     const date=d['A_Fecha']||'-';
     const time=d['A_Check-IN']||'-';
     const cel=d['RS_Celular']||'-';
-    const paid=(parseFloat(d['RC_Pagos_Total'])||0).toFixed(2);
+    const rawPaid=parseFloat(d['RC_Pagos_Total'])||0;
     const tot=(parseFloat(d['A_Total'])||0).toFixed(2);
-    return `<div class="appt-card" onclick="openModal(${idx})">
+    const deuda=parseFloat(d['A_Deuda'])||0;
+    const realizado=d['Realizado']==='TRUE'||d['Realizado']===true;
+    const displayPaid=rawPaid>0?rawPaid:(realizado?parseFloat(tot):0);
+    const paid=displayPaid.toFixed(2);
+    const isPaid=deuda<=0;
+    const payBoxCls=isPaid?'payment-box':'payment-box unpaid';
+    const iconColor=isPaid?'#00FF87':'#f87171';
+    const amountCls=isPaid?'payment-amount':'payment-amount payment-amount-red';
+    const recDate=rec.date?new Date(rec.date):null;
+    const isToday=recDate&&recDate.toDateString()===new Date().toDateString();
+    const cardCls=isToday?'appt-card is-today':'appt-card';
+    const todayBanner=isToday?'<div class="today-pill"><span class="today-pill-dot"></span>Hoy</div>':'';
+    return `<div class="${cardCls}" onclick="openModal(${idx})">
         <div class="appt-card-accent"></div>
         <div class="appt-card-body">
             <div class="appt-top">
                 <div>
+                    ${todayBanner}
                     <div class="appt-client">${name}</div>
                     <div class="appt-code">${code}</div>
                 </div>
-                ${badge(s)}
+                <div class="appt-badges">
+                    ${(!isPaid && s.cls==='en-hora')
+                        ? '<span class="badge badge-en-hora-deuda"><span>En Hora</span><span class="badge-sep">·</span><span class="badge-deuda-amt">Debe Bs. '+deuda.toFixed(2)+'</span></span>'
+                        : badge(s)+((!isPaid && s.cls!=='en-hora') ? ' <span class="badge badge-pendiente" style="color:#f87171;border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.1);">Debe Bs. '+deuda.toFixed(2)+'</span>' : '')
+                    }
+                </div>
             </div>
             <div class="info-grid">
                 <div class="info-cell"><div class="info-lbl">Fecha</div><div class="info-val">${formatDate(date)}</div></div>
                 <div class="info-cell"><div class="info-lbl">Hora</div><div class="info-val">${time}</div></div>
                 <div class="info-cell"><div class="info-lbl">Celular</div><div class="info-val">${cel}</div></div>
-                <div class="info-cell"><div class="info-lbl">Total</div><div class="info-val">$${tot}</div></div>
+                <div class="info-cell"><div class="info-lbl">Total</div><div class="info-val">Bs. ${tot}</div></div>
             </div>
-            <div class="payment-box">
+            <div class="${payBoxCls}">
                 <div class="payment-left">
                     <div class="payment-icon">
-                        <svg width="15" height="15" fill="none" stroke="#00FF87" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        <svg width="15" height="15" fill="none" stroke="${iconColor}" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                     </div>
                     <span class="payment-label">Monto Pagado</span>
                 </div>
-                <span class="payment-amount">$${paid}</span>
+                <span class="${amountCls}">${isPaid?'Bs. '+paid:'Pendiente de pago'}</span>
             </div>
         </div>
     </div>`;
@@ -1515,13 +1713,34 @@ function statusClass(cls){return'hist-status hist-status-'+cls}
 
 function createHistRow(rec,idx){
     const d=rec.data,s=getStatus(d);
-    return `<div class="hist-row" onclick="openModal(${idx})">
+    const isActive=s.cls==='en-hora';
+    const recDate=rec.date?new Date(rec.date):null;
+    const isToday=recDate&&recDate.toDateString()===new Date().toDateString();
+    const rowCls=(isActive?'hist-row hist-row-active':'hist-row')+(isToday?' hist-row-today':'');
+    // Calcular deuda: usar A_Deuda si existe, si no inferir de Total - Pagado
+    const deudaDirecta=parseFloat(d['A_Deuda'])||0;
+    const totalRec=parseFloat(d['A_Total'])||0;
+    const pagadoRec=parseFloat(d['RC_Pagos_Total'])||0;
+    const deudaInferida=totalRec>0&&pagadoRec===0?totalRec:Math.max(0,totalRec-pagadoRec);
+    const deuda=deudaDirecta>0?deudaDirecta:deudaInferida;
+    const hasDeuda=deuda>0;
+
+    let statusHTML;
+    if(isActive && hasDeuda){
+        statusHTML=`<span class="badge badge-en-hora-deuda"><span>En Hora</span><span class="badge-sep">·</span><span class="badge-deuda-amt">Debe Bs. ${deuda.toFixed(2)}</span></span>`;
+    } else if(!isActive && hasDeuda){
+        statusHTML=`<span class="${statusClass(s.cls)}" style="display:flex;align-items:center;gap:5px;">${s.label} <span style="color:#f87171;font-size:.85em;opacity:.9;">· Bs. ${deuda.toFixed(2)}</span></span>`;
+    } else {
+        statusHTML=`<span class="${statusClass(s.cls)}">${s.label}</span>`;
+    }
+
+    return `<div class="${rowCls}" onclick="openModal(${idx})">
         <div class="${dotClass(s.cls)}"></div>
         <div class="hist-info">
             <div class="hist-name">${d['RS_Nombre']||'-'}</div>
             <div class="hist-date">${formatDate(d['A_Fecha'])}</div>
         </div>
-        <span class="${statusClass(s.cls)}">${s.label}</span>
+        ${statusHTML}
         <svg class="hist-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </div>`;
 }
@@ -1534,7 +1753,15 @@ function openModal(idx){
     const time=d['A_Check-IN']||'-';
     const cel=d['RS_Celular']||'-';
     const paid=(parseFloat(d['RC_Pagos_Total'])||0).toFixed(2);
-    const tot=(parseFloat(d['A_Total'])||0).toFixed(2);
+    const totRaw=parseFloat(d['A_Total'])||0;
+    // Si A_Total es 0 pero hay RC_Pagos_Total, usar ese como total de referencia
+    const tot=(totRaw>0?totRaw:(parseFloat(d['RC_Pagos_Total'])||0)).toFixed(2);
+    const deudaModal=parseFloat(d['A_Deuda'])||0;
+    // Hay deuda si A_Deuda > 0, o si Total > 0 y Pagado = 0
+    const hasPending=deudaModal>0||(parseFloat(tot)>0&&parseFloat(paid)===0);
+    const hasTot=parseFloat(tot)>0;
+    const modalPayCls=hasPending?'modal-payment unpaid':'modal-payment';
+    const totCls=hasTot?'pay-green':'pay-red';
     document.getElementById('modalBody').innerHTML=`
         <div class="modal-hero">
             <div class="modal-logo"><img src="https://i.ibb.co/HTbsv698/TUM-CEO-verde-fluo-500x500.png"></div>
@@ -1551,10 +1778,10 @@ function openModal(idx){
                 <div class="mf"><div class="mf-l">Hora</div><div class="mf-v">${time}</div></div>
                 <div class="mf mf-full"><div class="mf-l">Celular</div><div class="mf-v">${cel}</div></div>
             </div>
-            <div class="modal-payment">
+            <div class="${modalPayCls}">
                 <div class="modal-pay-title">Detalle de Pago</div>
-                <div class="modal-pay-row"><span>Total Servicio</span><span>$${tot}</span></div>
-                <div class="modal-pay-row"><span class="pay-green">Pagado</span><span class="pay-green">$${paid}</span></div>
+                <div class="modal-pay-row"><span>Total Servicio</span><span class="${totCls}">Bs. ${tot}</span></div>
+                <div class="modal-pay-row"><span class="${totCls}">Pagado</span><span class="${totCls}">${hasTot?'✓ Ok':'✗ Pendiente'}</span></div>
             </div>
         </div>`;
     document.getElementById('modalOverlay').classList.remove('hidden');
@@ -1604,11 +1831,6 @@ document.getElementById('searchForm').addEventListener('submit',async e=>{
             const raw=item['A_Fecha'];
             const d=raw?new Date(raw):null;
             return{data:item,date:d&&!isNaN(d)?d.toISOString():null,index:i};
-        }).sort((a,b)=>{
-            if(!a.date&&!b.date)return 0;
-            if(!a.date)return 1;
-            if(!b.date)return -1;
-            return new Date(b.date)-new Date(a.date);
         });
 
         if(!allRecords.length){
@@ -1617,11 +1839,64 @@ document.getElementById('searchForm').addEventListener('submit',async e=>{
         } else {
             heroEl.classList.add('compact');
             document.getElementById('clearButton').classList.remove('hidden');
-            document.getElementById('mainRecord').innerHTML=createMainCard(allRecords[0],0);
-            const others=allRecords.slice(1);
-            document.getElementById('otherRecords').innerHTML=others.length
-                ?others.map((r,i)=>createHistRow(r,i+1)).join('')
-                :'<div class="empty-hist">Sin historial previo</div>';
+
+            const now=new Date();
+
+            // Separar por estado
+            // Ordenar activos: hoy primero, luego futuros más próximos, luego pasados más recientes
+            function sortActivos(list){
+                const today=now.toDateString();
+                return list.sort((a,b)=>{
+                    const da=new Date(a.date), db=new Date(b.date);
+                    const aIsToday=da.toDateString()===today;
+                    const bIsToday=db.toDateString()===today;
+                    if(aIsToday&&!bIsToday)return -1;
+                    if(!aIsToday&&bIsToday)return 1;
+                    const aFuture=da>=now, bFuture=db>=now;
+                    if(aFuture&&!bFuture)return -1;
+                    if(!aFuture&&bFuture)return 1;
+                    if(aFuture&&bFuture)return da-db; // futuros: más próximo primero
+                    return db-da; // pasados: más reciente primero
+                });
+            }
+
+            const enHora=sortActivos(allRecords
+                .filter(r=>r.data['En Hora']==='TRUE'||r.data['En Hora']===true));
+
+            const pendientes=sortActivos(allRecords
+                .filter(r=>{
+                    const enH=r.data['En Hora']==='TRUE'||r.data['En Hora']===true;
+                    const real=r.data['Realizado']==='TRUE'||r.data['Realizado']===true;
+                    return !enH&&!real;
+                }));
+
+            const realizados=allRecords
+                .filter(r=>r.data['Realizado']==='TRUE'||r.data['Realizado']===true)
+                .sort((a,b)=>new Date(b.date)-new Date(a.date)); // realizados: más reciente primero
+
+            // Tarjeta principal: EN HORA más cercano a hoy, si no, pendiente más cercano
+            const mainRec=enHora[0]||pendientes[0]||realizados[0]||allRecords[0];
+            const mainIdx=allRecords.indexOf(mainRec);
+            document.getElementById('mainRecord').innerHTML=createMainCard(mainRec,mainIdx);
+
+            // Historial: EN HORA adicionales + pendientes + realizados, con separadores
+            const extraEnHora=enHora.slice(enHora[0]===mainRec?1:0);
+            let histHTML='';
+
+            if(extraEnHora.length){
+                histHTML+=`<div class="hist-section-label active-label"><span class="sect-dot"></span>En Hora</div>`;
+                histHTML+=extraEnHora.map(r=>createHistRow(r,allRecords.indexOf(r))).join('');
+            }
+            if(pendientes.filter(r=>r!==mainRec).length){
+                histHTML+=`<div class="hist-section-label pendiente-label"><span class="sect-dot"></span>Pendientes</div>`;
+                histHTML+=pendientes.filter(r=>r!==mainRec).map(r=>createHistRow(r,allRecords.indexOf(r))).join('');
+            }
+            if(realizados.length){
+                histHTML+=`<div class="hist-section-label realizado-label"><span class="sect-dot"></span>Realizados</div>`;
+                histHTML+=realizados.map(r=>createHistRow(r,allRecords.indexOf(r))).join('');
+            }
+
+            document.getElementById('otherRecords').innerHTML=histHTML||'<div class="empty-hist">Sin historial previo</div>';
             updateStats(allRecords);
             resultsArea.classList.remove('hidden');
             setTimeout(()=>statsRow.classList.add('visible'),60);
