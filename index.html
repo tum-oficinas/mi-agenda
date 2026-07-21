@@ -717,14 +717,14 @@
                 border-radius:16px;
                 max-width:100%;
             }
-            .search-row{flex-direction:row; gap:8px}
-            .search-input{padding:.75rem .9rem; font-size:.85rem}
+            .search-row{flex-direction:column; gap:10px}
+            .search-input{padding:.85rem 1rem; font-size:.95rem; width:100%}
             .search-btn{
-                padding:.75rem 1.1rem;
-                font-size:.78rem;
-                white-space:nowrap;
-                flex-shrink:0;
+                width:100%;
+                padding:.85rem 1.1rem;
+                font-size:.9rem;
             }
+            .clear-btn{align-self:flex-end; margin-top:-4px}
 
             /* stats & results */
             .info-grid{grid-template-columns:repeat(2,1fr)}
@@ -736,8 +736,6 @@
 
         /* ── VERY SMALL ── */
         @media(max-width:380px){
-            .search-row{flex-direction:column}
-            .search-btn{width:100%; padding:13px}
             .nav-link-ghost{display:none}
         }
 
