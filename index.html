@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <link rel="icon" type="image/png" href="https://i.ibb.co/HTbsv698/TUM-CEO-verde-fluo-500x500.png">
     <title>Mi Agenda — TUM</title>
 
@@ -1486,6 +1486,11 @@
         .qr-img-wrap img{
             width:100%; height:100%; object-fit:contain; display:block;
             image-rendering:crisp-edges; image-rendering:-webkit-optimize-contrast; image-rendering:pixelated;
+            cursor:zoom-in; transition:transform .25s ease;
+            touch-action:manipulation;
+        }
+        .qr-img-wrap img.zoomed{
+            transform:scale(2.2); cursor:zoom-out;
         }
         .qr-hint{
             font-size:.68rem; color:var(--muted); font-family:var(--font-body);
@@ -2060,6 +2065,9 @@ function openQR(){
     document.getElementById('qrOverlay').classList.add('visible');
     document.body.style.overflow='hidden';
 }
+document.getElementById('qrImage').addEventListener('click',function(){
+    this.classList.toggle('zoomed');
+});
 function closeQRBtn(){
     document.getElementById('qrOverlay').classList.remove('visible');
     document.body.style.overflow='';
