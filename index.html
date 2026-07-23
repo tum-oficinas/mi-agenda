@@ -718,9 +718,11 @@
                 max-width:100%;
             }
             .search-row{display:flex; flex-wrap:wrap; gap:10px}
-            .search-input{
+            .search-input-wrap{
                 order:1; flex:1 1 auto; min-width:0;
-                padding:.85rem 1rem; font-size:.95rem;
+            }
+            .search-input{
+                padding:.85rem 1rem .85rem .5rem; font-size:.95rem;
             }
             .clear-btn{order:2; flex:0 0 auto}
             .search-btn{
@@ -855,29 +857,50 @@
         @media(min-width:641px){
             .search-row{flex-wrap:nowrap; gap:8px}
         }
-        .search-input{
+        .search-input-wrap{
             flex:1;
             min-width:0;
-            padding:.85rem 1rem;
-            font-family:var(--font-body);
-            font-size:.95rem; font-weight:400;
+            display:flex;
+            align-items:center;
             background:rgba(255,255,255,.04);
             border:1.5px solid rgba(255,255,255,.08);
             border-radius:12px;
-            color:var(--white);
             transition:all .25s ease;
-            letter-spacing:.01em;
         }
-        @media(min-width:641px){
-            .search-input{padding:.82rem 1.1rem; font-size:.9rem}
-        }
-        .search-input::placeholder{color:rgba(255,255,255,.2); font-weight:400}
-        .search-input:focus{
-            outline:none;
+        .search-input-wrap:focus-within{
             border-color:rgba(0,255,135,.5);
             background:rgba(0,255,135,.04);
             box-shadow:0 0 0 4px rgba(0,255,135,.07), 0 0 20px rgba(0,255,135,.06);
         }
+        .input-prefix{
+            flex-shrink:0;
+            padding:.85rem 0 .85rem 1rem;
+            font-family:var(--font-title);
+            font-size:.9rem; font-weight:800;
+            color:var(--green-text);
+            letter-spacing:.02em;
+            user-select:none;
+        }
+        @media(min-width:641px){
+            .input-prefix{padding:.82rem 0 .82rem 1.1rem; font-size:.85rem}
+        }
+        .search-input{
+            flex:1;
+            min-width:0;
+            width:100%;
+            padding:.85rem 1rem .85rem .5rem;
+            font-family:var(--font-body);
+            font-size:.95rem; font-weight:400;
+            background:transparent;
+            border:none;
+            color:var(--white);
+            letter-spacing:.01em;
+        }
+        @media(min-width:641px){
+            .search-input{padding:.82rem 1.1rem .82rem .5rem; font-size:.9rem}
+        }
+        .search-input::placeholder{color:rgba(255,255,255,.2); font-weight:400}
+        .search-input:focus{outline:none}
         .search-btn{
             padding:.85rem 1.1rem;
             background:var(--green);
@@ -1682,16 +1705,19 @@
         <div class="hero-left">
             <div class="hero-eyebrow">
                 <span class="eyebrow-dot"></span>
-                <span class="eyebrow-text">Portal de cliente · En vivo</span>
+                <span class="eyebrow-text">Verificaci&#xF3;n con CUS · En vivo</span>
             </div>
             <h1 class="hero-title">Tu <span>Agenda</span><br>en tiempo real</h1>
-            <p class="hero-sub">Ingresa tu c&#xF3;digo de cliente para consultar el estado de todos tus servicios</p>
+            <p class="hero-sub">Ingresa tu CUS &#x2014; el C&#xF3;digo &#xDA;nico de Servicio que recibiste por WhatsApp al confirmar tu pago &#x2014; y consulta el estado de todos tus servicios</p>
 
             <div class="search-card">
-                <label class="search-label" for="searchInput">C&#xF3;digo de cliente</label>
+                <label class="search-label" for="searchInput">C&#xF3;digo &#xDA;nico de Servicio</label>
                 <form id="searchForm">
                     <div class="search-row">
-                        <input type="text" id="searchInput" class="search-input" placeholder="Ej&#x3A; CLI-12345 &#xF3; e6577f24" required autocomplete="off">
+                        <div class="search-input-wrap">
+                            <span class="input-prefix">CUS &#x2014;</span>
+                            <input type="text" id="searchInput" class="search-input" placeholder="f3a92k1" required autocomplete="off" spellcheck="false" autocapitalize="off">
+                        </div>
                         <button type="submit" id="searchButton" class="search-btn">Consultar</button>
                         <button type="button" id="clearButton" class="clear-btn hidden" onclick="clearSearch()" title="Limpiar">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1700,7 +1726,7 @@
                 </form>
                 <div class="search-hint">
                     <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-                    Encuentra tu c&#xF3;digo en el correo de confirmaci&#xF3;n
+                    Tu CUS se genera autom&#xE1;ticamente tras confirmar el pago y se env&#xED;a por WhatsApp
                 </div>
                 <div id="errorMessage" class="error-msg hidden">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
